@@ -18,7 +18,7 @@ module Middleman::Features::RemoteData
     #
     #     data.my_json
     def data_source(name, url)
-      connection = Faraday.new(:url => url) do |builder|
+      connection = Faraday.new do |builder|
         builder.use Faraday::Request::UrlEncoded
         builder.use Faraday::Adapter::NetHttp
         builder.use FaradayMiddleware::ParseXml,  :content_type => /\bxml$/
