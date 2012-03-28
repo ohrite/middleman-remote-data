@@ -1,4 +1,5 @@
-require "httparty"
+require "faraday"
+require "faraday_middleware"
 
 module Middleman::Features::RemoteData
   class << self
@@ -17,8 +18,15 @@ module Middleman::Features::RemoteData
     #
     #     data.my_json
     def data_source(name, url)
+      connection = Faraday.new(:url => url) do |builder|
+        builder.use Faraday::Request::UrlEncoded
+        builder.use Faraday::Adapter::NetHttp
+        builder.use FaradayMiddleware::ParseXml,  :content_type => /\bxml$/
+        builder.use FaradayMiddleware::ParseJson, :content_type => /\bjson$/
+      end
+      
       data_callback(name) do
-        HTTParty.get(url).parsed_response
+        connection.get(url).body
       end
     end
   end

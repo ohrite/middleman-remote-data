@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   
-  s.add_runtime_dependency("middleman", ["~> 2.0.4"])
-  s.add_runtime_dependency("httparty", ["~> 0.7.8"])
+  s.add_runtime_dependency("middleman-core", [">= 3.0.0.beta.2"])
+  s.add_runtime_dependency("faraday", ['>= 0.7.4', '< 0.9'])
+  s.add_runtime_dependency("faraday_middleware", ['>= 0.8.6'])
 end
